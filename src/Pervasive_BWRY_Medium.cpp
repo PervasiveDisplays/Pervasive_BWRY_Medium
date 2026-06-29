@@ -185,17 +185,8 @@ void Pervasive_BWRY_Medium::COG_initial()
     b_sendCommandData8(0xe6, u_temperature); //default is 25C but requires an external sensor for ambient temp
     b_sendCommandData8(0xe0, 0x02); //
 
-    switch (u_eScreen_EPD)
-    {
-        case eScreen_EPD_741_QS_0B:
-            b_sendCommand8(0xa5); //
-            b_waitBusy();
-            break;
-
-        default:
-
-            break;
-    }
+	b_sendCommand8(0xa5); //
+	b_waitBusy();
 
     // Application note § 3. COG initial
     // Work settings
