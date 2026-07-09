@@ -71,7 +71,6 @@ void Pervasive_BWRY_Medium::COG_getDataOTP()
     hV_HAL_GPIO_clear(b_pin.panelCS); // Select
     ui16 |= hV_HAL_SPI3_read();
     hV_HAL_GPIO_set(b_pin.panelCS); // Unselect
-    Serial.println(ui16, HEX);
     hV_HAL_Serial_crlf();
     if (ui16 == _chipId)
     {
@@ -130,7 +129,6 @@ void Pervasive_BWRY_Medium::COG_getDataOTP()
     hV_HAL_GPIO_clear(b_pin.panelCS); // Select
     COG_data[0] = hV_HAL_SPI3_read(); // First byte for check
     hV_HAL_GPIO_set(b_pin.panelCS); // Unselect
-    Serial.println(COG_data[0], HEX);
     // Check table start and set bank offset
     if (COG_data[0] == 0xa5)
     {
@@ -166,10 +164,9 @@ void Pervasive_BWRY_Medium::COG_getDataOTP()
     // Populate COG_data
     for (uint16_t index = 1; index < _readBytes; index += 1)
     {
-        digitalWrite(b_pin.panelCS, LOW); // Select
+        hV_HAL_GPIO_clear(b_pin.panelCS); // Select
         COG_data[index] = hV_HAL_SPI3_read(); // Read OTP
-        Serial.println(COG_data[index], HEX);
-        digitalWrite(b_pin.panelCS, HIGH); // Unselect
+        hV_HAL_GPIO_set(b_pin.panelCS); // Unselect
     }
 
     u_flagOTP = true;
